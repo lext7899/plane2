@@ -11,7 +11,7 @@ from random import *
 pygame.init()
 pygame.mixer.init()
 
-bg_size=width,height=400,700
+bg_size=width,height=400,600
 screen=pygame.display.set_mode(bg_size)
 pygame.display.set_caption("飞机大战")
 
@@ -22,7 +22,7 @@ RED=(255,0,0)
 WHITE=(255,255,255)
 
 # 载入游戏音乐
-pygame.mixer.music.load("sound/game_music.ogg")
+pygame.mixer.music.load("sound/game.mp3")
 pygame.mixer.music.set_volume(0.2)
 bullet_sound = pygame.mixer.Sound("sound/bullet.wav")
 bullet_sound.set_volume(0.2)
@@ -87,7 +87,7 @@ def main():
     enemies=pygame.sprite.Group()
     #生成敌方小型飞机
     small_enemies=pygame.sprite.Group()
-    add_small_enemies(small_enemies,enemies,15)
+    add_small_enemies(small_enemies,enemies,10)
     #生成敌方中型飞机
     mid_enemies=pygame.sprite.Group()
     add_mid_enemies(mid_enemies,enemies,4)
@@ -97,7 +97,7 @@ def main():
 
     #统计得分
     score=0
-    score_font=pygame.font.Font("font/font.ttf",36)
+    score_font=pygame.font.Font("font/font.ttf",20)
 
     #标志是否暂停游戏
     paused=False
@@ -110,7 +110,7 @@ def main():
     paused_image=paused_nor_image
 
     #游戏结束画面
-    gameover_font = pygame.font.Font("font/font.TTF", 48)
+    gameover_font = pygame.font.Font("font/font.TTF", 38)
     again_image = pygame.image.load("images/again.png").convert_alpha()
     again_rect = again_image.get_rect()
     gameover_image = pygame.image.load("images/gameover.png").convert_alpha()
@@ -122,7 +122,7 @@ def main():
     #全屏炸弹
     bomb_image=pygame.image.load("images/bomb.png").convert_alpha()
     bomb_rect=bomb_image.get_rect()
-    bomb_font=pygame.font.Font("font/font.ttf",48)
+    bomb_font=pygame.font.Font("font/font.ttf",38)
     bomb_num=3
 
     #超级子弹定时器
@@ -139,7 +139,7 @@ def main():
     bullet_supply=supply.Bullet_Supply(bg_size)
     bomb_supply=supply.Bomb_Supply(bg_size)
     SUPPLY_TIME=USEREVENT
-    pygame.time.set_timer(SUPPLY_TIME,30*1000)
+    pygame.time.set_timer(SUPPLY_TIME,15*1000)
     
     
 
@@ -155,8 +155,8 @@ def main():
     bullet2_index=0
     BULLET2_NUM=8
     for i in range(BULLET2_NUM):
-        bullet2.append(bullet.Bullet2((me.rect.centerx-33,me.rect.centery)))
-        bullet2.append(bullet.Bullet2((me.rect.centerx+30,me.rect.centery)))
+        bullet2.append(bullet.Bullet2((me.rect.centerx-23,me.rect.centery)))
+        bullet2.append(bullet.Bullet2((me.rect.centerx+20,me.rect.centery)))
     
                 
     clock=pygame.time.Clock()
@@ -192,7 +192,7 @@ def main():
                         pygame.mixer.music.pause()
                         pygame.mixer.pause()
                     else:
-                        pygame.time.set_timer(SUPPLY_TIME,30*1000)
+                        pygame.time.set_timer(SUPPLY_TIME,20*1000)
                         pygame.mixer.music.unpause()
                         pygame.mixer.unpause()
             elif event.type==KEYDOWN:
@@ -229,7 +229,7 @@ def main():
                         paused_image=paused_nor_image
 
         #根据用户的得分增加难度
-        if level==1 and score>50000:
+        if level==1 and score>300000:
             level=2
             upgrade_sound.play()
             #增加3加小型敌机、2加中型敌机、1加大型敌机
@@ -238,7 +238,7 @@ def main():
             add_big_enemies(big_enemies,enemies,1)
             #提升小型敌机的速度
             inc_speed(small_enemies,1)
-        elif level==2 and score>300000:
+        elif level==2 and score>600000:
             level=3
             upgrade_sound.play()
             #增加3加小型敌机、2加中型敌机、1加大型敌机
@@ -248,7 +248,7 @@ def main():
             #提升小型敌机的速度
             inc_speed(small_enemies,1)
             inc_speed(mid_enemies,1)
-        elif level==3 and score>600000:
+        elif level==3 and score>900000:
             level=4
             upgrade_sound.play()
             #增加3加小型敌机、2加中型敌机、1加大型敌机
@@ -258,7 +258,7 @@ def main():
             #提升小型敌机的速度
             inc_speed(small_enemies,1)
             inc_speed(mid_enemies,1)
-        elif level==4 and score>1000000:
+        elif level==4 and score>5000000:
             level=5
             upgrade_sound.play()
             #增加3加小型敌机、2加中型敌机、1加大型敌机
@@ -302,7 +302,7 @@ def main():
                     get_bullet_sound.play()
                     #发射超级子弹
                     is_double_bullet=True
-                    pygame.time.set_timer(DOUBLE_BULLET_TIME,18*1000)
+                    pygame.time.set_timer(DOUBLE_BULLET_TIME,60*1000)
                     bullet_supply.active=False
                     
             #发射子弹
